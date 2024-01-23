@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = {extras = ["all"], version = "*"}
+pyodbc = "*"
+pydantic-settings = "*"
+pydantic = "*"
+starlette = "*"
+python-decouple = "*"
+aioodbc = "*"
+pymssql = "*"
+pydantic-core = "*"
+typing-extensions = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+sqlalchemy = {extras = ["asyncio"], version = "*"}
+psycopg2 = "*"
+asyncpg = "*"
+alembic = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
