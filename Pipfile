@@ -19,6 +19,11 @@ sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg2 = "*"
 asyncpg = "*"
 alembic = "*"
+celery = {extras = ["redis", "sqlalchemy"], version = "*"}
+requests = "*"
+word2number = "*"
+pendulum = "*"
+timefhuman = "*"
 
 [dev-packages]
 

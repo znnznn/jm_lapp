@@ -1,7 +1,6 @@
 import requests
 import urllib
 import urllib.parse
-from urllib.parse import urlparse
 import os
 import json
 import ntpath
@@ -9,12 +8,13 @@ from typing import List, Optional
 from time import sleep
 from datetime import datetime
 
-from clickupython.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
-from clickupython.helpers import formatting
-from clickupython import models
-from clickupython import exceptions
+from clickup_api import exceptions, schemas as models
+from clickup_api.helpers.timefuncs import fuzzy_time_to_seconds, fuzzy_time_to_unix
+from clickup_api.helpers import formatting
 
 API_URL = "https://api.clickup.com/api/v2/"
+space = "90150937457"
+list_id = "901502186178"
 
 
 class ClickUpClient:
@@ -42,8 +42,8 @@ class ClickUpClient:
         self.retry_rate_limited_requests = retry_rate_limited_requests
 
     def __parse_response_rate_limit_headers(self, response: requests.Response):
-        self.rate_limit_remaining = int(response.headers.get("x-ratelimit-remaining"))
-        self.rate_limit_reset = float(response.headers.get("x-ratelimit-reset"))
+        self.rate_limit_remaining = int(response.headers.get("x-ratelimit-remaining", 0))
+        self.rate_limit_reset = float(response.headers.get("x-ratelimit-reset", 0))
 
     def __check_rate_limit(self):
         if self.rate_limit_remaining <= 1:
@@ -163,7 +163,7 @@ class ClickUpClient:
             )
 
     # Lists
-    def get_list(self, list_id: str) -> models.SingleList:
+    def get_list(self, list_id: int) -> models.SingleList:
         """Fetches a single list item from a given list id and returns a List object.
 
         Args:
@@ -190,7 +190,7 @@ class ClickUpClient:
         fetched_lists = self.__get_request(model, space_id, "list")
         return models.AllLists.build_lists(fetched_lists)
 
-    def get_lists(self, folder_id: str) -> models.AllLists:
+    def get_lists(self, folder_id: int) -> models.AllLists:
         """Fetches all lists from a given folder id and returns a list of List objects.
 
         Args:
@@ -321,7 +321,7 @@ class ClickUpClient:
             list_id (str): The id of the list to add the task to.
 
         Returns:
-            models.Task: Returns an object of type Task.
+            schemas.Task: Returns an object of type Task.
         """
         model = "list/"
         task = self.__post_request(model, None, None, False, list_id, "task", task_id)
@@ -348,7 +348,7 @@ class ClickUpClient:
 
     # Folders
 
-    def get_folder(self, folder_id: str) -> models.Folder:
+    def get_folder(self, folder_id: int) -> models.Folder:
         """Fetches a single folder item from a given folder id and returns a Folder object.
 
         Args:
@@ -515,7 +515,7 @@ class ClickUpClient:
             exceptions.ClickupClientError: [description]
 
         Returns:
-            models.Tasks: [description]
+            schemas.Tasks: [description]
         """
         if order_by not in ["id", "created", "updated", "due_date"]:
             raise exceptions.ClickupClientError(
@@ -572,7 +572,7 @@ class ClickUpClient:
 
     def get_tasks(
             self,
-            list_id: str,
+            list_id: int,
             archived: bool = False,
             page: int = 0,
             order_by: str = "created",
@@ -1020,7 +1020,7 @@ class ClickUpClient:
         return models.Checklists.build_checklist(created_checklist)
 
     def update_checklist(
-            self, checklist_id: str, name: str = None, postion: int = None
+            self, checklist_id: str, name: str = None, position: int = None
     ) -> models.Checklist:
         """update_checklist Updates a ClickUp checklist.
 
@@ -1032,14 +1032,14 @@ class ClickUpClient:
         Returns:
             :models.Checklist: Returns an object of type Checklist.
         """
-        if not name and not postion:
+        if not name and not position:
             return
 
         data = {}
 
         if name:
             data.update({"name": name})
-        if postion:
+        if position:
             data.update({"postition": position})
 
         model = "checklist/"
@@ -1208,7 +1208,7 @@ class ClickUpClient:
             :color (str, optional): The color for the goal. Defaults to None.
 
         Returns:
-            models.Goal: [description]
+            schemas.Goal: [description]
         """
         arguments = {}
         arguments.update(vars())
@@ -1407,7 +1407,7 @@ class ClickUpClient:
         if fetched_space:
             return models.Space.build_space(fetched_space)
 
-    def get_spaces(self, team_id: str, archived: bool = False):
+    def get_spaces(self, team_id: int, archived: bool = False):
 
         path = "space?archived=false"
 

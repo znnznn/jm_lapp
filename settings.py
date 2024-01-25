@@ -4,8 +4,13 @@ from pydantic_settings import BaseSettings
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
+CLICKUP_API_KEY = config("CLICKUP_API_KEY", cast=str)
+
 ALGORITHM = "SHA256"
 ACCESS_TOKEN_EXPIRE_MINUTES = config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int, default=30)
+
+EBMS_API_PASSWORD = config("EBMS_API_PASSWORD", cast=str)
+EBMS_API_LOGIN = config("EBMS_API_LOGIN", cast=str)
 
 
 class EBMSDatabase(BaseSettings):

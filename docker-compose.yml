@@ -1,10 +1,21 @@
 version: '3.7'
 
 services:
+  redis:
+    image: redis
+  celery:
+    image: jmlapp:latest
+    build: .
+    command: celery -A clickup_api worker -l info  -B
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - redis
   db:
     image: postgres
     ports:
-      - "5431:5431"
+      - "5431:5432"
     expose:
       - 5431
     volumes:
@@ -25,6 +36,7 @@ services:
     ports:
       - "1433:1433"
   web:
+    image: jmlapp:latest
     build: .
     env_file:
       - .env
