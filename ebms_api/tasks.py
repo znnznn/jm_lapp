@@ -33,6 +33,15 @@ def get_tasks():
     print("7+++++++++++++++++++++")
     task = client.get_task(tasks.tasks[0].id)
     print(task)
+    task1 = client.create_task(list.id, name="Test super task")
+    print(task1)
+    print("8+++++++++++++++++++++")
+    assignees = client.get_list_members(list.id)
+    print(assignees)
+    print("9+++++++++++++++++++++")
+    comment = client.create_task_comment(task.id, "Test comment", assignees.members[0].id)
+    print(comment)
+    print("10+++++++++++++++++++++")
 
 
 

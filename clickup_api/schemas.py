@@ -30,7 +30,7 @@ class StatusElement(BaseModel):
 
 
 class Asssignee(BaseModel):
-    id: Optional[str] = None
+    id: Optional[int] = None
     color: Optional[str] = None
     username: Optional[str] = None
     initials: Optional[str] = None
@@ -207,7 +207,7 @@ class Comment(BaseModel):
     assigned_by: Optional[AssignedBy] = None
 
     reactions: List[Any] = None
-    date: Optional[str] = None
+    date: Optional[int] = None
     hist_id: Optional[str] = None
 
     def build_comment(self):
@@ -232,27 +232,27 @@ class Creator(BaseModel):
 
 
 class Option(BaseModel):
-    id: Optional[str]
+    id: Optional[str] = None
 
-    name: Optional[str]
+    name: Optional[str] = None
 
-    color: Optional[str]
+    color: Optional[str] = None
 
-    order_index: Optional[int]
+    order_index: Optional[int] = None
 
 
 class TypeConfig(BaseModel):
-    default: Optional[int]
+    default: Optional[int] = None
 
-    placeholder: Optional[str]
+    placeholder: Optional[str] = None
 
-    new_drop_down: Optional[bool]
+    new_drop_down: Optional[bool] = None
 
-    options: Optional[List[Option]]
+    options: Optional[List[Option]] = None
 
-    include_guests: Optional[bool]
+    include_guests: Optional[bool] = None
 
-    include_team_members: Optional[bool]
+    include_team_members: Optional[bool] = None
 
 
 class CustomItems(BaseModel):
@@ -687,12 +687,12 @@ class User(BaseModel):
 
 
 class InvitedBy(BaseModel):
-    id: str = None
-    username: str = None
-    color: str = None
-    email: str = None
-    initials: str = None
-    profile_picture: None = None
+    id: Optional[int] = None
+    username: Optional[str] = None
+    color: Optional[str] = None
+    email: Optional[str] = None
+    initials: Optional[str] = None
+    profile_picture: Optional[None] = None
 
 
 class Member(BaseModel):
