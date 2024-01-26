@@ -26,8 +26,8 @@ RUN apt-get update &&  \
     sh -c "wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -" && \
     apt-get update && \
     apt-get install -y \
-        msodbcsql17 \
-        mssql-tools \
+        msodbcsql18 \
+        mssql-tools18 \
         libpython3-dev \
         libgssapi-krb5-2 \
         postgresql \
