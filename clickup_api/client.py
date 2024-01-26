@@ -674,7 +674,7 @@ class ClickUpClient:
 
     def create_task(
             self,
-            list_id: str,
+            list_id: id,
             name: str,
             description: str = None,
             priority: int = None,
@@ -1127,7 +1127,7 @@ class ClickUpClient:
         task_members = self.__get_request(model, task_id, "member")
         return models.Members.build_members(task_members)
 
-    def get_list_members(self, list_id: str) -> models.Members:
+    def get_list_members(self, list_id: int) -> models.Members:
         """Get all members assigned to a specific list via a list id.
 
         Args:
